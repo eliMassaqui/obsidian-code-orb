@@ -58,7 +58,7 @@ const Hero = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 100 }}
             className="relative w-48 h-48 mx-auto mb-8"
           >
             <motion.div 
@@ -66,15 +66,23 @@ const Hero = () => {
                 scale: [1, 1.2, 1],
                 rotate: [0, 180, 360]
               }}
-              transition={{ duration: 8, repeat: Infinity }}
-              className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-xl opacity-40"
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-full blur-xl opacity-40"
+            />
+            <motion.div 
+              animate={{ 
+                rotate: [0, 360]
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent rounded-full"
             />
             <motion.img 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.1, rotate: [0, -5, 5, -5, 0] }}
               src={profileImage} 
               alt="Elísio Massaki Luamba"
-              className="relative w-full h-full object-cover rounded-full border-4 border-primary/50 shadow-2xl hover:scale-105 transition-transform duration-500 bg-transparent"
+              className="relative w-full h-full object-cover rounded-full border-4 border-primary/50 shadow-2xl transition-all duration-500 bg-transparent cursor-pointer"
             />
           </motion.div>
 
@@ -84,12 +92,20 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-4">
-              Olá, sou <span className="gradient-text inline-block">
+              Olá, sou <span className="gradient-text inline-block relative">
                 {displayedText}
                 <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.5, repeat: Infinity }}
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
                   className="inline-block w-1 h-12 bg-primary ml-1 align-middle"
+                />
+                <motion.span
+                  animate={{ 
+                    opacity: [0, 0.5, 0],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-accent/20 rounded-lg blur-xl -z-10"
                 />
               </span>
             </h1>
@@ -140,22 +156,34 @@ const Hero = () => {
             className="flex flex-wrap gap-4 justify-center mt-8"
           >
             <motion.a 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               href="#projects" 
-              className="btn-primary inline-flex items-center gap-2 group"
+              className="btn-primary inline-flex items-center gap-2 group relative overflow-hidden"
             >
-              Ver Projetos
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.6 }}
+              />
+              <span className="relative z-10">Ver Projetos</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
             </motion.a>
             <motion.a 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               href="#contact" 
-              className="btn-secondary inline-flex items-center gap-2 group"
+              className="btn-secondary inline-flex items-center gap-2 group relative overflow-hidden"
             >
-              Entre em Contato
-              <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.6 }}
+              />
+              <span className="relative z-10">Entre em Contato</span>
+              <Mail className="w-5 h-5 group-hover:scale-110 transition-transform relative z-10" />
             </motion.a>
           </motion.div>
 
@@ -167,22 +195,34 @@ const Hero = () => {
             className="flex gap-6 justify-center mt-12"
           >
             <motion.a 
-              whileHover={{ scale: 1.3, rotate: 6 }}
+              whileHover={{ scale: 1.3, rotate: 6, y: -5 }}
+              whileTap={{ scale: 0.9 }}
               href="https://github.com/eliMassaqui" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-all duration-300 hover:shadow-[0_0_20px_hsl(200_100%_50%/0.5)]"
+              className="text-muted-foreground hover:text-primary transition-all duration-300 hover:shadow-[0_0_20px_hsl(200_100%_50%/0.5)] p-3 rounded-full hover:bg-primary/10"
               aria-label="GitHub"
             >
-              <Github className="w-6 h-6" />
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <Github className="w-6 h-6" />
+              </motion.div>
             </motion.a>
             <motion.a 
-              whileHover={{ scale: 1.3, rotate: -6 }}
+              whileHover={{ scale: 1.3, rotate: -6, y: -5 }}
+              whileTap={{ scale: 0.9 }}
               href="mailto:elisiomassaqui8@gmail.com"
-              className="text-muted-foreground hover:text-accent transition-all duration-300 hover:shadow-[0_0_20px_hsl(180_100%_50%/0.5)]"
+              className="text-muted-foreground hover:text-accent transition-all duration-300 hover:shadow-[0_0_20px_hsl(180_100%_50%/0.5)] p-3 rounded-full hover:bg-accent/10"
               aria-label="Email"
             >
-              <Mail className="w-6 h-6" />
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Mail className="w-6 h-6" />
+              </motion.div>
             </motion.a>
           </motion.div>
         </motion.div>

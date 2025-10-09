@@ -125,6 +125,38 @@ export default {
           "50%": {
             transform: "translateY(-10px)"
           }
+        },
+        "spin": {
+          from: {
+            transform: "rotate(0deg)"
+          },
+          to: {
+            transform: "rotate(360deg)"
+          }
+        },
+        "shimmer": {
+          "0%": {
+            backgroundPosition: "-1000px 0"
+          },
+          "100%": {
+            backgroundPosition: "1000px 0"
+          }
+        },
+        "pulse-subtle": {
+          "0%, 100%": {
+            opacity: "1"
+          },
+          "50%": {
+            opacity: "0.8"
+          }
+        },
+        "bounce-subtle": {
+          "0%, 100%": {
+            transform: "translateY(0)"
+          },
+          "50%": {
+            transform: "translateY(-5px)"
+          }
         }
       },
       animation: {
@@ -134,7 +166,11 @@ export default {
         "fade-in-up": "fade-in-up 0.8s ease-out",
         "slide-in-left": "slide-in-left 0.6s ease-out",
         "glow": "glow 2s ease-in-out infinite",
-        "float": "float 3s ease-in-out infinite"
+        "float": "float 3s ease-in-out infinite",
+        "spin": "spin 8s linear infinite",
+        "shimmer": "shimmer 3s linear infinite",
+        "pulse-subtle": "pulse-subtle 3s ease-in-out infinite",
+        "bounce-subtle": "bounce-subtle 2s ease-in-out infinite",
       },
     },
   },

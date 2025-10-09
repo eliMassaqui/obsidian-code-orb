@@ -67,38 +67,55 @@ const Projects = () => {
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50, rotateY: -15 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : { opacity: 0, y: 50, rotateY: -15 }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+              initial={{ opacity: 0, y: 50, rotateY: -15, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateY: 0, scale: 1 } : { opacity: 0, y: 50, rotateY: -15, scale: 0.9 }}
+              transition={{ duration: 0.7, delay: index * 0.15, type: "spring", stiffness: 80 }}
               whileHover={{ 
                 scale: 1.05, 
-                y: -10,
+                y: -15,
                 rotateY: 5,
-                transition: { duration: 0.3 }
+                transition: { duration: 0.4, type: "spring", stiffness: 300 }
               }}
-              className="glass-card overflow-hidden hover:border-primary/50 transition-all duration-500 group relative"
+              className="glass-card overflow-hidden hover:border-primary/50 transition-all duration-500 group relative cursor-pointer"
               style={{ transformStyle: "preserve-3d" }}
             >
               <div className="relative h-48 overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.2, rotate: 2 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
                 <motion.div 
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute inset-0 bg-gradient-to-br from-primary/30 via-accent/20 to-transparent" 
+                />
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
                 />
               </div>
               
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-muted-foreground mb-4">{project.description}</p>
+                <motion.h3 
+                  className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors"
+                  whileHover={{ x: 5 }}
+                >
+                  {project.title}
+                </motion.h3>
+                <motion.p 
+                  className="text-muted-foreground mb-4"
+                  initial={{ opacity: 0.8 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  {project.description}
+                </motion.p>
                 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech) => (
@@ -112,20 +129,24 @@ const Projects = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <a
+                  <motion.a
                     href="#"
-                    className="text-primary hover:text-accent transition-colors inline-flex items-center gap-1"
+                    whileHover={{ scale: 1.1, x: 3 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-primary hover:text-accent transition-colors inline-flex items-center gap-1 hover:gap-2"
                   >
                     <Github className="w-4 h-4" />
                     <span className="text-sm">Código</span>
-                  </a>
-                  <a
+                  </motion.a>
+                  <motion.a
                     href="#"
-                    className="text-primary hover:text-accent transition-colors inline-flex items-center gap-1"
+                    whileHover={{ scale: 1.1, x: 3 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-primary hover:text-accent transition-colors inline-flex items-center gap-1 hover:gap-2"
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span className="text-sm">Demo</span>
-                  </a>
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

@@ -87,34 +87,59 @@ const Skills = () => {
           {skills.map((skill, index) => (
             <motion.div
               key={skill.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -10 }}
-              className="glass-card p-6 hover:border-primary/50 transition-all duration-500 group relative overflow-hidden"
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 50, rotateX: -15 }}
+              transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
+              whileHover={{ scale: 1.05, y: -10, rotateY: 5 }}
+              className="glass-card p-6 hover:border-primary/50 transition-all duration-500 group relative overflow-hidden cursor-pointer"
+              style={{ transformStyle: "preserve-3d" }}
             >
               {/* Gradient overlay on hover */}
               <motion.div 
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" 
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileHover={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent" 
+              />
+              
+              {/* Shimmer effect */}
+              <motion.div
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
               />
               
               <div className="relative z-10">
                 <motion.div 
-                  whileHover={{ rotate: 12, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mb-4 shadow-lg group-hover:shadow-[0_0_30px_hsl(200_100%_50%/0.4)]`}
+                  whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.15 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mb-4 shadow-lg group-hover:shadow-[0_0_30px_hsl(200_100%_50%/0.4)] group-hover:animate-glow`}
                 >
-                  {skill.customIcon ? (
-                    <img src={skill.customIcon} alt={skill.title} className="w-8 h-8 object-contain" />
-                  ) : (
-                    <skill.icon className="w-7 h-7 text-white" />
-                  )}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    {skill.customIcon ? (
+                      <img src={skill.customIcon} alt={skill.title} className="w-8 h-8 object-contain" />
+                    ) : (
+                      <skill.icon className="w-7 h-7 text-white" />
+                    )}
+                  </motion.div>
                 </motion.div>
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">{skill.title}</h3>
-                <p className="text-muted-foreground text-sm">{skill.description}</p>
+                <motion.h3 
+                  className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {skill.title}
+                </motion.h3>
+                <motion.p 
+                  className="text-muted-foreground text-sm"
+                  initial={{ opacity: 0.7 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  {skill.description}
+                </motion.p>
               </div>
             </motion.div>
           ))}
