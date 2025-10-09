@@ -1,4 +1,7 @@
 import { ExternalLink, Github } from "lucide-react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 const projects = [
   {
@@ -40,33 +43,57 @@ const projects = [
 ];
 
 const Projects = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section id="projects" className="section-padding">
+    <section id="projects" className="section-padding" ref={ref}>
       <div className="container mx-auto">
-        <div className="text-center mb-16 animate-fade-in">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="gradient-text">Projetos</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Alguns dos meus trabalhos recentes que demonstram minhas habilidades
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div
+            <motion.div
               key={project.title}
-              className="glass-card overflow-hidden hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:-translate-y-3 group animate-fade-in-up relative"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              initial={{ opacity: 0, y: 50, rotateY: -15 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : { opacity: 0, y: 50, rotateY: -15 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -10,
+                rotateY: 5,
+                transition: { duration: 0.3 }
+              }}
+              className="glass-card overflow-hidden hover:border-primary/50 transition-all duration-500 group relative"
+              style={{ transformStyle: "preserve-3d" }}
             >
               <div className="relative h-48 overflow-hidden">
-                <img
+                <motion.img
+                  whileHover={{ scale: 1.2, rotate: 2 }}
+                  transition={{ duration: 0.6 }}
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20" 
+                />
               </div>
               
               <div className="p-6">
@@ -101,7 +128,7 @@ const Projects = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
